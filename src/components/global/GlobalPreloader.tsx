@@ -19,104 +19,106 @@ import StarsCanvas from "@/canvas/Stars";
 
 
 export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<SetStateAction<boolean>> }) {
-    const root = useRef<HTMLDivElement>(null);
-    const canvas = useRef<HTMLCanvasElement>(null);
-    const spinner = useRef<HTMLDivElement>(null);
-    const track = useRef(null);
-    const intro = useRef(null);
-  
-    const [playFlipper, setPlayFlipper] = useState(false);
-  
-    const removeExperience = () => {
-      removeClouds();
-      removePlane();
-      removeEvents();
-      removeTick();
-      removeRenderer();
-    };
-  
-    useEffect(() => {
-      let tl: gsap.core.Timeline;
-      const spinnerAnim = () => {
-        tl = gsap.timeline({
-          delay: 2,
-          onComplete: () => {
-            hidePreloader();
-            revealPlane();
-            gsap.to(intro.current, { delay: 2, duration: 0.5, autoAlpha: 1 });
-            tl.kill();
-            setPlayFlipper(true);
-          },
-        });
-  
-        tl.to(track.current, { duration: 0.6, yPercent: -33.333 });
-        tl.to(track.current, { delay: 1, yPercent: -66.666 });
-        tl.to(track.current, { delay: 0.6, yPercent: -70.666 });
-      };
-      const createExperience = async () => {
-        // run three.js
-        createScene();
-        createCamera();
-        createRenderer(canvas.current || document.createElement("canvas"));
-        createEvents();
-        createTick();
-  
-        createPreloader(spinner.current || document.createElement("div"));
-        createLights();
-        createClouds();
-        await createPlane();
-  
-        spinnerAnim();
-      };
-  
-      createExperience();
-  
-      return () => {
-        removeExperience();
-      };
-    }, []);
-  
-    const mapTransition = () => {
-      gsap.to(intro.current, { duration: 0.5, autoAlpha: 0 });
-      transitionPlane();
-      transitionClouds(root.current || document.createElement("div"));
-      setTimeout(() => {
-        onAnimComplete(true);
-        removeExperience();
-        // sessionStorage.setItem("beenBefore", "true");
-      }, 4000);
-    };
-  
-    return (
-        <section ref={root} className={clsx("fixed top-0 z-[110] size-full bg-[url('/images/preloader/space.webp')]", styles.globalPreloader)}>
-        <StarsCanvas />
+  const root = useRef<HTMLDivElement>(null);
+  const canvas = useRef<HTMLCanvasElement>(null);
+  const spinner = useRef<HTMLDivElement>(null);
+  const track = useRef(null);
+  const intro = useRef(null);
 
-        <div ref={spinner} className="absolute top-0 z-20 grid size-full place-items-center bg-[url('/images/preloader/space.webp')]">
-          <div className="relative z-30 flex flex-wrap justify-center">
-            <div className="relative">
-              <img className="w-280" src="/images/preloader/mars.png" />
-              <img
-                className={clsx("xy-center absolute size-300 max-w-none", styles.globalPreloader__loader)}
-                src="/images/preloader/rocket.png"
-              />
-            </div>
-            <div className="absolute top-360 h-24 w-400 overflow-hidden text-center">
-              <div ref={track} className="font-lores uppercase tracking-tighter text-white">
-                <p>This is your captain speaking...</p>
-                <p>Welcome aboard the Olympic Space Shuttle!</p>
-                <p>We've just departed from Earth...</p>
-              </div>
+  const [playFlipper, setPlayFlipper] = useState(false);
+
+  const removeExperience = () => {
+    removeClouds();
+    removePlane();
+    removeEvents();
+    removeTick();
+    removeRenderer();
+  };
+
+  useEffect(() => {
+    let tl: gsap.core.Timeline;
+    const spinnerAnim = () => {
+      tl = gsap.timeline({
+        delay: 2,
+        onComplete: () => {
+          hidePreloader();
+          revealPlane();
+          gsap.to(intro.current, { delay: 2, duration: 0.5, autoAlpha: 1 });
+          tl.kill();
+          setPlayFlipper(true);
+        },
+      });
+
+      tl.to(track.current, { duration: 0.6, yPercent: -33.333 });
+      tl.to(track.current, { delay: 1, yPercent: -66.666 });
+      tl.to(track.current, { delay: 0.6, yPercent: -70.666 });
+    };
+    const createExperience = async () => {
+      // run three.js
+      createScene();
+      createCamera();
+      createRenderer(canvas.current || document.createElement("canvas"));
+      createEvents();
+      createTick();
+
+      createPreloader(spinner.current || document.createElement("div"));
+      createLights();
+      createClouds();
+      await createPlane();
+
+      spinnerAnim();
+    };
+
+    createExperience();
+
+    return () => {
+      removeExperience();
+    };
+  }, []);
+
+  const mapTransition = () => {
+    gsap.to(intro.current, { duration: 0.5, autoAlpha: 0 });
+    transitionPlane();
+    transitionClouds(root.current || document.createElement("div"));
+    setTimeout(() => {
+      onAnimComplete(true);
+      removeExperience();
+      // sessionStorage.setItem("beenBefore", "true");
+    }, 4000);
+  };
+
+  return (
+    <section ref={root} className={clsx("fixed top-0 z-[110] size-full bg-[url('/images/preloader/space.webp')]", styles.globalPreloader)}>
+      <StarsCanvas />
+      <div ref={spinner} className="absolute top-0 z-20 grid size-full place-items-center bg-[url('/images/preloader/space.webp')]">
+        <div className="relative z-30 flex flex-wrap justify-center">
+          <div className="relative">
+            <img className="w-280" src="/images/preloader/mars.png" />
+            <img
+              className={clsx("xy-center absolute size-300 max-w-none", styles.globalPreloader__loader)}
+              src="/images/preloader/rocket.png"
+            />
+          </div>
+          <div className="absolute top-360 h-24 w-400 overflow-hidden text-center">
+            <div ref={track} className="font-lores uppercase tracking-tighter text-white">
+              <p>This is your captain speaking...</p>
+              <p>Welcome aboard the Olympic Space Shuttle!</p>
+              <p>We've just departed from Earth...</p>
             </div>
           </div>
         </div>
-  
-        <div
-          ref={intro}
-          className="absolute top-0 z-20 grid size-full content-between pb-120 pt-32 opacity-0 l:pb-56 s:pb-40 h-l:pb-56"
-        >
-          <img className="mx-auto" src="/images/logo.svg" alt="Lingo logo" width="118" height="32" />
-  
-          <div className="mx-auto flex w-full max-w-[1140px] flex-wrap justify-between px-24 xxl:max-w-[900px] l:max-w-[500px]">
+      </div>
+
+      <div
+        ref={intro}
+        className="absolute top-0 z-20 grid size-full content-between pb-120 pt-32 opacity-0 l:pb-56 s:pb-40 h-l:pb-56"
+      >
+        <a href="https://bff.ecoindex.fr/redirect/?url=https://debugthugs20.maurice.webcup.hodi.host/" style={{marginLeft: 'auto', marginRight: '2rem'}} target="_blank">
+          <img src="https://bff.ecoindex.fr/badge/?theme=dark&url=https://debugthugs20.maurice.webcup.hodi.host" alt="Ecoindex Badge" />
+        </a>
+        <img className="mx-auto" src="/images/logo.svg" alt="Lingo logo" width="118" height="32" />
+
+        <div className="mx-auto flex w-full max-w-[1140px] flex-wrap justify-between px-24 xxl:max-w-[900px] l:max-w-[500px]">
           <div className="mb-56 flex w-full flex-wrap justify-between l:mb-32 s:grid s:grid-cols-2 s:gap-16">
             <div>
               <div className="flex gap-4 xxl:gap-2 s:grid s:grid-cols-4">
@@ -124,7 +126,7 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
                   W
                 </BaseFlipper>
                 <BaseFlipper className="s:w-auto" play={playFlipper} offset={0.2}>
-                 E
+                  E
                 </BaseFlipper>
                 <BaseFlipper className="s:w-auto" play={playFlipper} offset={0.3}>
                   L
@@ -146,10 +148,10 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
             <div>
               <div className="flex gap-4 xxl:gap-2 s:grid s:grid-cols-5">
                 <BaseFlipper className="s:w-auto" play={playFlipper} offset={0.8}>
-                 T
+                  T
                 </BaseFlipper>
                 <BaseFlipper className="s:w-auto" play={playFlipper} offset={0.9}>
-                 O
+                  O
                 </BaseFlipper>
               </div>
             </div>
@@ -182,10 +184,9 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
             </p>
           </div>
         </div>
-        </div>
-  
-        <canvas ref={canvas} className="absolute inset-0 z-10" />
-      </section>
-    );
-  }
-  
+      </div>
+
+      <canvas ref={canvas} className="absolute inset-0 z-10" />
+    </section>
+  );
+}
