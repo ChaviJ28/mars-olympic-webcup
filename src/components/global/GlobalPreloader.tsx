@@ -114,7 +114,7 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
           ref={intro}
           className="absolute top-0 z-20 grid size-full content-between pb-120 pt-32 opacity-0 l:pb-56 s:pb-40 h-l:pb-56"
         >
-          <img className="mx-auto" src="/images/logo.svg" alt="Lingo logo" width="118" height="32" />
+          <img className="mx-auto" src="/images/olympic-logo.png" alt="Lingo logo" width="118" height="32" />
   
           <div className="mx-auto flex w-full max-w-[1140px] flex-wrap justify-between px-24 xxl:max-w-[900px] l:max-w-[500px]">
           <div className="mb-56 flex w-full flex-wrap justify-between l:mb-32 s:grid s:grid-cols-2 s:gap-16">
