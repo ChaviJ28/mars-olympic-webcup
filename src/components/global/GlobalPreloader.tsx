@@ -15,6 +15,7 @@ import { createPreloader, hidePreloader } from "../../three/preloader/preloader"
 import { createRenderer, removeRenderer } from "../../three/preloader/renderer";
 import { createScene } from "../../three/preloader/scene";
 import { createTick, removeTick } from "../../three/preloader/tick";
+import StarsCanvas from "@/canvas/Stars";
 
 
 export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<SetStateAction<boolean>> }) {
@@ -87,9 +88,11 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
     };
   
     return (
-      <section ref={root} className={clsx("fixed top-0 z-[110] size-full bg-[url('/images/preloader/space.webp')]", styles.globalPreloader)}>
+        <section ref={root} className={clsx("fixed top-0 z-[110] size-full bg-[url('/images/preloader/space.webp')]", styles.globalPreloader)}>
+        <StarsCanvas />
+
         <div ref={spinner} className="absolute top-0 z-20 grid size-full place-items-center bg-[url('/images/preloader/space.webp')]">
-          <div className="relative z-20 flex flex-wrap justify-center">
+          <div className="relative z-30 flex flex-wrap justify-center">
             <div className="relative">
               <img className="w-280" src="/images/preloader/mars.png" />
               <img
@@ -99,10 +102,9 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
             </div>
             <div className="absolute top-360 h-24 w-400 overflow-hidden text-center">
               <div ref={track} className="font-lores uppercase tracking-tighter text-white">
-              <p>This is your captain speaking...</p>
-              <p>Welcome aboard the Olympic Space Shuttle!</p>
-              <p>We've just departed from Earth...</p>
-  
+                <p>This is your captain speaking...</p>
+                <p>Welcome aboard the Olympic Space Shuttle!</p>
+                <p>We've just departed from Earth...</p>
               </div>
             </div>
           </div>
