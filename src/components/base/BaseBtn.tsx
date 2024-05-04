@@ -22,9 +22,9 @@ export function BaseBtn({ children, size, variant, className, icon, loading, ico
   } else if (variant === "mythical" && !disabled) {
     styles.current = "bg-gradient-to-r from-[#F9E7B4] to-[#DA9537] hover:from-[#FAE9BB] hover:to-[#DE9F4B] text-black";
   } else if (variant === "glow" && !disabled) {
-    styles.current = "bg-purpleLight-500 hover:bg-purpleLight-600 active:bg-purpleLight-700 text-white shadow-glow";
+    styles.current = "bg-[#AA5136] hover:bg-[#FB8F53] active:bg-[#AA5136] text-white shadow-glow";
   } else if (variant === "purpleLight" && !disabled) {
-    styles.current = "bg-purpleLight-500 hover:bg-purpleLight-600 active:bg-purpleLight-700 text-white";
+    styles.current = "bg-[#AA5136]  hover:bg-[#FB8F53 active:bg-[#AA5136]text-white";
   } else if (variant === "green" && !disabled) {
     styles.current = "bg-green-500 hover:bg-green-600 active:bg-green-700 text-white";
   } else if (variant === "border" && !disabled) {

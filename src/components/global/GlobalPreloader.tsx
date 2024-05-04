@@ -82,7 +82,7 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
       setTimeout(() => {
         onAnimComplete(true);
         removeExperience();
-        sessionStorage.setItem("beenBefore", "true");
+        // sessionStorage.setItem("beenBefore", "true");
       }, 4000);
     };
   

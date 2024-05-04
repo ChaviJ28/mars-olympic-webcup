@@ -26,17 +26,17 @@ export function BaseFlipper({ children, className, play, offset = 0 }: BaseFlipp
   return (
     <div
       className={clsx(
-        "relative h-104 w-72 overflow-hidden rounded-lg border-2 border-black/50 bg-[#8577AA] xxl:h-88 xxl:w-56 l:h-80 l:w-48 xs:h-56",
+        "relative h-104 w-72 overflow-hidden rounded-lg border-2 border-black/50 bg-[#AA5136] xxl:h-88 xxl:w-56 l:h-80 l:w-48 xs:h-56",
         className
       )}
       style={{ perspective: 3000 }}
     >
-      <div ref={top} className="preserve-3d relative h-1/2 w-full overflow-hidden bg-[#8577AA]">
+      <div ref={top} className="preserve-3d relative h-1/2 w-full overflow-hidden bg-[#AA5136]">
         <p className="absolute z-10 w-full text-center font-bebas text-96 leading-[1.15] text-white xxl:text-80 l:text-72 l:leading-[1.16] xs:text-48">
           {children}
         </p>
       </div>
-      <div ref={bottom} className="preserve-3d relative h-1/2 w-full origin-top overflow-hidden bg-[#7F6FA7]">
+      <div ref={bottom} className="preserve-3d relative h-1/2 w-full origin-top overflow-hidden bg-[#AA5136]">
         <p
           ref={bottomText}
           className="absolute -top-48 z-10 w-full text-center font-bebas text-96 leading-[1.15] text-white xxl:top-[-44px] xxl:text-80 l:-top-40 l:text-72 l:leading-[1.16] xs:-top-28 xs:text-48"
