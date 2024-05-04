@@ -38,40 +38,6 @@ export function IslandMapIsland({
   if (index === 0) {
     lockPos = { x: "left-[40%] xl:left-1/2", y: "top-1/2 xl:top-1/3" };
   }
-  if (index === 1) {
-    marginTop = "mt-48";
-    translateZ = "translate-z-300";
-    size = 700;
-    sign = "/images/map/sign_hodl.webp";
-    signPos = { x: "right-0", y: "top-40" };
-    lockPos = { x: "left-1/2", y: "top-[60%]" };
-    signSize = "w-180";
-  } else if (index === 2) {
-    marginTop = "-mt-20";
-    translateZ = "translate-z-400";
-    size = 640;
-    sign = "/images/map/sign_degen.webp";
-    signPos = { x: "left-40", y: "bottom-40" };
-    lockPos = { x: "left-1/2", y: "top-[60%] xl:top-[65%]" };
-    signSize = "w-160";
-  } else if (index === 3) {
-    marginTop = "-mt-64";
-    translateZ = "translate-z-300";
-    size = 800;
-    sign = "/images/map/sign_diamond.webp";
-    signPos = { x: "top-0", y: "left-0" };
-    lockPos = { x: "left-1/2", y: "top-1/2 xl:top-[60%]" };
-    signSize = "w-320 xl:w-240";
-  } else if (index === 4) {
-    marginTop = "mt-88";
-    translateZ = "translate-z-200";
-    size = 960;
-    sign = "/images/map/sign_whale.webp";
-    signPos = { x: "-top-12", y: "-right-20" };
-    lockPos = { x: "left-1/2", y: "top-1/2 xl:top-[60%]" };
-    signSize = "w-180";
-  }
-
   const lottieOps = { loop: true, autoplay: true, animationData: islandData };
 
   const { ref, inView } = useInView({

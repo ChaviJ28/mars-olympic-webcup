@@ -55,9 +55,8 @@ export function IslandMap({ playAnim }: { playAnim: boolean }) {
   };
 
   const handleHover = (hoverState: boolean, island: number) => {
+    console.log(island)
     if (active && (island === 0 || island === 1 || island === 2)) return;
-    if (!active && (island === 3 || island === 4)) return;
-
     setIsHovered(hoverState);
   };
 
@@ -95,8 +94,7 @@ export function IslandMap({ playAnim }: { playAnim: boolean }) {
 
   const transition = (island: number) => {
     if (innerWidth > 1080) {
-      if (active && (island === 0 || island === 1 || island === 2)) return;
-      if (!active && (island === 3 || island === 4)) return;
+       if (active && (island === 0 || island === 1 || island === 2 || island === 3 || island === 4)) return;
     }
 
     let xPos = 0;
@@ -198,7 +196,7 @@ export function IslandMap({ playAnim }: { playAnim: boolean }) {
     <section ref={root} className="relative h-screen w-full overflow-hidden ">
       <MarsCanvas />
       <div ref={scene} className="relative z-10 size-full origin-bottom scale-50 xl:transform-none">
-        <img ref={plane} className="absolute left-[-100vw] top-0 w-240 xl:hidden" src="/images/map/rocket_1.png" />
+        <img ref={plane} className="absolute left-[-100vw] top-0 w-360 xl:hidden" src="/images/rock12.png" style={{ transform: 'rotate(20deg)' }}/>
 
         <BaseIcon
           className={clsx(
@@ -272,11 +270,11 @@ export function IslandMap({ playAnim }: { playAnim: boolean }) {
               /> */}
 
               <IslandMapIsland
-                index={0}
+                index={1}
                 active={active}
-                onClick={() => transition(0)}
-                onMouseEnter={() => handleHover(true, 0)}
-                onMouseLeave={() => handleHover(false, 0)}
+                onClick={() => transition(1)}
+                onMouseEnter={() => handleHover(true, 1)}
+                onMouseLeave={() => handleHover(false, 1)}
                 islandData={planet2}
                 onVisible={updatePagination}
               />
@@ -293,21 +291,21 @@ export function IslandMap({ playAnim }: { playAnim: boolean }) {
               /> */}
 
               <IslandMapIsland
-                index={0}
+                index={2}
                 active={active}
-                onClick={() => transition(0)}
-                onMouseEnter={() => handleHover(true, 0)}
-                onMouseLeave={() => handleHover(false, 0)}
+                onClick={() => transition(2)}
+                onMouseEnter={() => handleHover(true, 2)}
+                onMouseLeave={() => handleHover(false, 2)}
                 islandData={planet3}
                 onVisible={updatePagination}
               />
 
               <IslandMapIsland
-                index={0}
+                index={3}
                 active={active}
-                onClick={() => transition(0)}
-                onMouseEnter={() => handleHover(true, 0)}
-                onMouseLeave={() => handleHover(false, 0)}
+                onClick={() => transition(3)}
+                onMouseEnter={() => handleHover(true, 3)}
+                onMouseLeave={() => handleHover(false, 3)}
                 islandData={planet3}
                 onVisible={updatePagination}
               />
