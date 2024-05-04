@@ -198,7 +198,7 @@ export function IslandMap({ playAnim }: { playAnim: boolean }) {
     <section ref={root} className="relative h-screen w-full overflow-hidden ">
       <MarsCanvas />
       <div ref={scene} className="relative z-10 size-full origin-bottom scale-50 xl:transform-none">
-        <img ref={plane} className="absolute left-[-100vw] top-0 w-240 xl:hidden" src="/images/map/plane.webp" />
+        <img ref={plane} className="absolute left-[-100vw] top-0 w-240 xl:hidden" src="/images/map/rocket_1.png" />
 
         <BaseIcon
           className={clsx(
@@ -312,10 +312,10 @@ export function IslandMap({ playAnim }: { playAnim: boolean }) {
                 onVisible={updatePagination}
               />
 
-              <img
+              {/* <img
                 className="absolute bottom-0 -z-10 hidden h-1/2 w-full max-w-none object-cover object-center saturate-150 xl:block"
                 src="/videos/water_poster.jpg"
-              />
+              /> */}
             </div>
           </div>
 

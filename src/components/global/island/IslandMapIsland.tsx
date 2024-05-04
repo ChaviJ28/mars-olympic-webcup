@@ -27,9 +27,9 @@ export function IslandMapIsland({
   islandData,
   locked,
 }: IslandMapIslandProps) {
-  let marginTop = "mt-160";
+  let marginTop = "mt-0";
   let translateZ = "translate-z-200";
-  let size = 480; // Default size
+  let size = 700; // Default size
   let sign = "/images/map/sign_ape.webp";
   let signPos = { x: "-left-20", y: "-top-72" };
   let signSize = "w-200";
@@ -41,7 +41,7 @@ export function IslandMapIsland({
   if (index === 1) {
     marginTop = "mt-48";
     translateZ = "translate-z-300";
-    size = 480;
+    size = 700;
     sign = "/images/map/sign_hodl.webp";
     signPos = { x: "right-0", y: "top-40" };
     lockPos = { x: "left-1/2", y: "top-[60%]" };

@@ -8,7 +8,7 @@
   "nm": "_ISLAND1",
   "ddd": 0,
   "assets": [
-    { "id": "image_0", "w": 188, "h": 246, "u": "lottie-images/island1/", "p": "img_0.webp", "e": 0 },
+    { "id": "image_0", "w": 203, "h": 246, "u": "lottie-images/island1/", "p": "img_0.webp", "e": 0 },
     { "id": "image_1", "w": 203, "h": 171, "u": "lottie-images/island1/", "p": "img_1.webp", "e": 0 },
     { "id": "image_2", "w": 331, "h": 501, "u": "lottie-images/island1/", "p": "img_2.webp", "e": 0 },
     { "id": "image_3", "w": 412, "h": 475, "u": "lottie-images/island1/", "p": "img_3.webp", "e": 0 },
