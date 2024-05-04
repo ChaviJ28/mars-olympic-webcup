@@ -1,5 +1,6 @@
-import { loadModel, increaseLoadedAssets } from "./loaders";
-import { useScene } from "./scene";
+//import { playIntroPlane } from "@/sounds";
+import { loadModel, increaseLoadedAssets } from "@/three/preloader/loaders";
+import { useScene } from "@/three/preloader/scene";
 import gsap from "gsap";
 import { Group, Sprite, SpriteMaterial, TextureLoader, Texture, Scene, Object3D, Mesh } from "three";
 import { GLTFLoader, GLTF } from "three/examples/jsm/loaders/GLTFLoader";
@@ -36,31 +37,32 @@ export const createPlane = async () => {
   object = await loadModel("/models/space.glb");
   plane = object.scene.children[0];
 
-  const scaleFactor = 0.3; // You can adjust this value as needed
-  plane.scale.set(scaleFactor, scaleFactor, scaleFactor);
+  const scaleFactor = 0.3;
+  plane.scale.set(scaleFactor, scaleFactor, -scaleFactor);
 
   plane.position.y = 0.6;
-  plane.rotation.y = -2.2;
+  plane.rotation.y = -1.5;
 
-  //
   const tl1 = gsap.timeline({ repeat: -1 });
-  tl1.to(plane.rotation, { duration: 0.5, z: 0, ease: "power1.inOut"});
-  tl1.to(plane.rotation, { duration: 0.5, z: 0.05, ease: "power1.inOut"});
-  tl1.to(plane.rotation, { duration: 0.5, z: 0, ease: "power1.inOut"});
+  // tl1.to(plane.rotation, { duration: 0.5, z: -0.02, ease: "power1.inOut"});
+  // tl1.to(plane.rotation, { duration: 0.5, z: 0, ease: "power1.inOut"});
+  // tl1.to(plane.rotation, { duration: 0.5, z: 0.02, ease: "power1.inOut"});
+  tl1.to(plane.position, { duration: 1, y: "+=0.5", yoyo: true, repeat: -1 });
 
-  if (innerWidth > 750) group.position.set(100, 0.5, -0.5);
-  else group.position.set(10, 0.5, -0.7);
+  if (innerWidth > 750) group.position.set(-100, 0.5, -0.5);
+  else group.position.set(-2, 0.5, -0.7);
   group.add(plane);
 
   createParticles();
 };
 
 export const revealPlane = () => {
-  gsap.to(group.position, { duration: 1.5,  x: 30, z: innerWidth > 750 ? 3 : 0, ease: "power1.inOut" });
+  gsap.to(group.position, { duration: 1.5,  x: 17, z: innerWidth > 750 ? 3 : 0, ease: "power1.inOut" });
 };
 
 export const transitionPlane = () => {
-  gsap.to(group.position, { duration: 3, x: 30, z: 7, ease: "power3.inOut" });
+  gsap.to(group.position, { duration: 3, x: 30, ease: "power3.inOut" });
+  //playIntroPlane();
   animParticles();
 };
 
@@ -106,7 +108,7 @@ const createParticles = () => {
       transparent: true,
     });
     const sprite = new Sprite(spriteMaterial);
-    sprite.position.set(-3.6, 1.7, -4);
+    sprite.position.set(-22.5, 1.7, -4);
     particles.push(sprite);
     group.add(sprite);
   }
@@ -153,3 +155,4 @@ const removeParticleTextures = () => {
     el.alpha.dispose();
   });
 };
+//
