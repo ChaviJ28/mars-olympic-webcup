@@ -1,7 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-
-import { GlobalPreloader } from "../components/global/GlobalPreloader";
+import { GlobalPreloader } from "./components/global/GlobalPreloader";
 
 export default function Home() {
   const beenBefore = sessionStorage.getItem("beenBefore") !== null;
