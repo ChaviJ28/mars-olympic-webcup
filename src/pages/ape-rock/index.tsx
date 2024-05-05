@@ -11,7 +11,7 @@ export default function PageApeRock() {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <ApeRock />
+        <ApeRock id={0} />
       </motion.div>
     </AnimatePresence>
   );
