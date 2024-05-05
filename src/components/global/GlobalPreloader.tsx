@@ -30,6 +30,11 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
   let btnText = "Join the Mars Betting Club"
   let loggedIn = false;
   const [showLoginComponent, setShowLoginComponent] = useState(false);
+  const [formType, setFormType] = useState('login');
+
+  const toggleFormType = () => {
+    setFormType(formType === 'login' ? 'register' : 'login');
+  };
 
   const handleButtonClick = () => {
     if (loggedIn) {
@@ -44,12 +49,43 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
     password?: string;
   };
 
-  const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-    console.log('Success:', values);
-    //api service
+  const handleLogin = async (values: any) => {
+    const response = await fetch("http://localhost:4000/api/auth/login", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: values.username,
+        password: values.password,
+      }),
+    });
+
+    const result = await response.json();
+
+    if (!result.success) {
+      console.error(result.message)
+    }
+
+    localStorage.setItem("jwt", result.data.jwt);
+    loggedIn = true;
     mapTransition();
   };
 
+  const handleRegister = async (values: any) => {
+
+  };
+
+  const onFinish = (values: any) => {
+    if (formType === 'login') {
+      handleLogin(values);
+    } else {
+      handleRegister(values);
+    }
+  };
   const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
@@ -63,6 +99,12 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
     removeTick();
     removeRenderer();
   };
+
+  useEffect(() => {
+    if (loggedIn) {
+      btnText = "Fly To Olympic 2092"
+    }
+  }, [localStorage, loggedIn])
 
   useEffect(() => {
     let tl: gsap.core.Timeline;
@@ -152,20 +194,20 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
 
           {showLoginComponent ? (
 
-            <div className="flex justify-center items-center bg-gray-200 pt-8 pr-8" style={{ height: "40vh" }}>
-              <div className="bg-white p-6 rounded-lg shadow-md" style={{ backdropFilter: 'blur(10px)' }}>
+            <div className="flex justify-center items-center bg-gray-200 pt-8 pr-8 z-10" style={{ height: "50vh" }}>
+              <div className="backdrop-filter bg-black backdrop-blur-lg bg-opacity-75 p-24 rounded-lg shadow-xxl w-[365px]">
+                <h2 className="text-8xl text-center mb-8 text-white" style={{ fontSize: '1.5rem', fontWeight: '500' }}>{formType === 'login' ? 'Login' : 'Register'}</h2>
                 <Form
                   name="basic"
-                  labelCol={{ span: 8 }}
-                  wrapperCol={{ span: 16 }}
-                  style={{ maxWidth: 400, paddingTop: '35px', paddingRight: '35px' }}
+                  style={{ maxWidth: 600, margin: 'auto' }}
                   initialValues={{ remember: true }}
                   onFinish={onFinish}
                   onFinishFailed={onFinishFailed}
                   autoComplete="off"
-
+                  layout="vertical"
                 >
                   <Form.Item
+                    className="text-black rounded-md"
                     label="Username"
                     name="username"
                     rules={[{ required: true, message: 'Please input your username!' }]}
@@ -173,7 +215,19 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
                     <Input />
                   </Form.Item>
 
+                  {formType === 'register' && (
+                    <Form.Item
+                      className="text-black rounded-md"
+                      label="Email"
+                      name="email"
+                      rules={[{ required: true, message: 'Please input your email!', type: 'email' }]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  )}
+
                   <Form.Item
+                    className="text-black rounded-md"
                     label="Password"
                     name="password"
                     rules={[{ required: true, message: 'Please input your password!' }]}
@@ -181,9 +235,37 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
                     <Input.Password />
                   </Form.Item>
 
-                  <Form.Item wrapperCol={{ offset: 10, span: 20 }}>
-                    <Button type="primary" htmlType="submit">
-                      Submit
+                  {formType === 'register' && (
+                    <Form.Item
+                      className="text-black rounded-md"
+                      label="Confirm Password"
+                      name="confirmPassword"
+                      dependencies={['password']}
+                      hasFeedback
+                      rules={[
+                        { required: true, message: 'Please confirm your password!' },
+                        ({ getFieldValue }) => ({
+                          validator(_, value) {
+                            if (!value || getFieldValue('password') === value) {
+                              return Promise.resolve();
+                            }
+                            return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                          },
+                        }),
+                      ]}
+                    >
+                      <Input.Password />
+                    </Form.Item>
+                  )}
+
+                  <Form.Item className="m-auto text-center w-full">
+                    <Button type="primary" className="w-full" htmlType="submit">
+                      {formType === 'login' ? 'Login' : 'Register'}
+                    </Button>
+                  </Form.Item>
+                  <Form.Item className="m-auto text-center w-full mt-[1rem]">
+                    <Button type="link" onClick={toggleFormType}>
+                      {formType === 'login' ? 'Need an account? Register' : 'Already have an account? Login'}
                     </Button>
                   </Form.Item>
                 </Form>
