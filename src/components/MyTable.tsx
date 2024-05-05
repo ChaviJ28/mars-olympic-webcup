@@ -1,8 +1,11 @@
 
+import { MyTableProps } from './ApeRock';
 import './styles/MyTable.css'
 
 
- export function MyTable(){
+
+
+export const MyTable: React.FC<MyTableProps> = ({ participants }) => {
 
   const participantData = [
     { id: 1, Name: 'Zinzu Chan Lee', Country: 'https://hatscripts.github.io/circle-flags/flags/uk.svg', Age: '27', Odds: '18/4',OddsVal:'10'},
@@ -21,19 +24,17 @@ import './styles/MyTable.css'
             <tr>
               <th>Name</th>
               <th>Country</th>
-              <th>Age</th>
               <th>Odds</th>
             </tr>
           </thead>
           <tbody>
-            {participantData.map((item) => (
+            {participants.map((item) => (
             <tr key={item.id}>
-                <td>{item.Name}</td>
-                <td className='playerFlag'><img src={item.Country} alt="" /></td>
-                <td>{item.Age}</td>
+                <td>{item.name}</td>
+                <td className='playerFlag'><img src={`https://hatscripts.github.io/circle-flags/flags/${item.country}.svg`} alt="" /></td>
                 <td className='OddsVal' >
-                  <div className='OddsPadding' style={{ backgroundColor: parseInt(item.OddsVal) > 7 ? 'green' : parseInt(item.OddsVal) >= 5 ? 'rgba(255, 140, 0, 0.9)': 'red' }}>
-                  {item.Odds}
+                  <div className='OddsPadding' style={{ backgroundColor: item.odds > 7 ? 'green' : item.odds >= 5 ? 'rgba(255, 140, 0, 0.9)': 'red' }}>
+                  {item.odds}
                   </div></td>
             </tr>
             ))}

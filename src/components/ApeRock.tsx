@@ -3,8 +3,8 @@ import { Form, Input, Select, Button, Flex } from 'antd';
 import { MyTable } from "@/components/MyTable";
 import { BaseLink } from "../components/base/BaseLink";
 import { FormInstance } from 'antd/lib/form';
-import { set } from 'lodash';
 import StarsCanvas from '@/canvas/mars_cover';
+import { useNavigate } from 'react-router-dom';
 
 const { Option } = Select;
 
@@ -12,6 +12,18 @@ interface FormValues {
   participant: string;
   paymentType: string;
   amount: string;
+}
+
+
+export interface Participant {
+  id: number;
+  name: string;
+  country: string;
+  odds: number;
+}
+
+export interface MyTableProps {
+  participants: Participant[];
 }
 
 
@@ -24,18 +36,72 @@ export const ApeRock: React.FC<{id: number}> = ({id} : {id: number}) => {
   ];
 
   const [form] = Form.useForm<FormInstance<FormValues>>();
-  const [participant, setParticipant] = useState<string>('');
+  const [participant, setParticipant] = useState<string>();
   const [paymentType, setPaymentType] = useState<string>('');
   const [amount, setAmount] = useState<number>(0);
   const [payOut, setPayOut] = useState<number>(0);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (values: FormValues) => {
+  const [participants, setParticipants] = useState<Participant[]>([]);
 
+  const handleSubmit = async (values: FormValues) => {
+    console.log('Received values:', values);
+    setLoading(true);
+    setLoading(true);
+
+    const data = {
+      email: localStorage.getItem('email'),
+      participant: values.participant,
+      paymentType: values.paymentType,
+      amount: values.amount,
+      payOut: payOut
+    }
+
+    try {
+      const response = await fetch('https://debugthugs20.maurice.webcup.hodi.host/api/participant/bet', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const navigate = useNavigate();
+
+      const dataRec = await response.json();
+
+      setLoading(false);
+      navigate('/bettingticket');
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
+    const fetchParticipants = async () => {
+      try {
+        const response = await fetch('https://debugthugs20.maurice.webcup.hodi.host/api/participant');
+        const jsonData = await response.json();
+        const filteredParticipants = jsonData.data.filter((participant:any) => participant.competition === id);
+        console.log(filteredParticipants)
+        setParticipants(filteredParticipants);
+      } catch (error) {
+        console.error('Failed to fetch participants:', error);
+      }
+    };
+
+    fetchParticipants();
+  }, []);
+
+  useEffect(() => {
     if (amount > 0 && !!participant) {
-      const partipantOdd = participantData.find(item => item.Name === participant)?.OddsVal;
+      const partipantOdd = participants.find(item => item.name === participant)?.odds; 
       setPayOut(amount * (Number(partipantOdd) + 1));
     }
   }, [amount, participant])
@@ -83,9 +149,9 @@ export const ApeRock: React.FC<{id: number}> = ({id} : {id: number}) => {
                     onChange={value => setParticipant(value)}
                     className="bg-white/10 text-white  rounded-md border-none"
                   >
-                    {participantData.map((item) => (
-                      <Option key={item.id} value={item.Name}>
-                        {item.Name}
+                    {participants.map((item, i) => (
+                      <Option key={i + item.odds} value={item.name}>
+                        {item.name}
                       </Option>
                     )
                     )}
@@ -121,12 +187,12 @@ export const ApeRock: React.FC<{id: number}> = ({id} : {id: number}) => {
                   />
                 </Form.Item>
 
-                {payOut > 0 && (<p className=" bg-gray-800 p-2 rounded-md  mb-[2rem]">
+                {payOut > 0 && (<p className=" bg-gray-800 p-2 rounded-md text-white  mb-[2rem]">
                   Expected Pay Out: <span className="font-bold text-green-400">${payOut.toFixed(2)}</span>
                 </p>)}
 
                 <Form.Item>
-                  <Button type="ghost" htmlType="submit" className="w-full text-white bg-purple-600 hover:border-transparent hover:text-white hover:bg-purple-800 transition-colors duration-300 rounded-md">
+                  <Button  loading={loading} type="ghost" htmlType="submit" className="w-full text-white bg-purple-600 hover:border-transparent hover:text-white hover:bg-purple-800 transition-colors duration-300 rounded-md">
                     Place Bet
                   </Button>
                 </Form.Item>
@@ -136,7 +202,7 @@ export const ApeRock: React.FC<{id: number}> = ({id} : {id: number}) => {
         </Flex>
 
         <div className='mt-[2rem] container'>
-          <MyTable />
+          <MyTable participants={participants} />
         </div>
       </div>
 
