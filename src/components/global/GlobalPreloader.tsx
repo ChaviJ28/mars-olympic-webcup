@@ -69,11 +69,12 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
     console.log("result", result);
     if (result.data.name) {
       loggedIn = true;
+      localStorage.setItem("email", result.data.email);
+
       mapTransition();
       console.error(result.message)
     }
 
-    // localStorage.setItem("jwt", result.data.jwt);
 
   };
 
@@ -99,10 +100,9 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
     if (!result.success) {
       console.error(result.message)
     }
+      localStorage.setItem("email", values.email);
+      // location.reload();
 
-    localStorage.setItem("jwt", result.data.jwt);
-    loggedIn = true;
-    mapTransition();
   };
 
   const onFinish = (values: any) => {
