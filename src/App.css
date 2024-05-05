@@ -42,6 +42,10 @@
 }
 
 
-.ant-form-item-required {
+ .ant-form-item-required {
   color: white !important;
+}
+
+.ant-form-item-explain-error {
+  margin: 6px auto 10px auto !important;
 }
