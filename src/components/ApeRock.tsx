@@ -70,17 +70,19 @@ export const ApeRock: React.FC<{ id: number }> = ({ id }: { id: number }) => {
   }, [amount, participant])
 
   return (
-    <div className='w-full h-auto absolute inset-0 z-[-1]  mx-0' style={{ backgroundImage: 'url(/images/Cover.png)', backgroundSize: 'cover' }}>
-      <StarsCanvas />
+    <div className='w-full h-screen absolute inset-0 z-[-1]  mx-0 overflow-y-auto'>
+      <div className="w-full h-full fixed inset-0 z-[-1]">
+        <StarsCanvas />
+      </div>
       <div className='p-32'>
         <BaseLink className="mb-10" to="/">Back</BaseLink>
         <Flex justify="space-between" className='mt-[5%]'>
           <div className="w-full md:w-1/2 p-2 flex justify-center">
             <div>
-              {id == 0 && <img className="w-600" src="/images/arch.png" />}
-              {id == 1 && <img className="w-600" src="/images/football.png" />}
-              {id == 2 && <img className="w-600" src="/images/shooter.png" />}
-
+              {id == 0  &&  <img className="w-600" src="/images/arch.png" /> }
+              {id == 1  &&  <img className="w-600" src="/images/football.png" /> }
+              {id == 2  &&  <img className="w-600" src="/images/shooter.png" /> }
+             
             </div>
           </div>
 
