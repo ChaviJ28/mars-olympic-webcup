@@ -51,7 +51,7 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
 
   const handleLogin = async (values: any) => {
     console.log(values);
-    const response = await fetch("http://localhost:4000/api/auth/login", {
+    const response = await fetch("https://debugthugs20.maurice.webcup.hodi.host/api/auth/login", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -60,25 +60,26 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: values.username,
+        email: values.name,
         password: values.password,
       }),
     });
 
     const result = await response.json();
-
-    if (!result.success) {
+    console.log("result", result);
+    if (result.data.name) {
+      loggedIn = true;
+      mapTransition();
       console.error(result.message)
     }
 
-    localStorage.setItem("jwt", result.data.jwt);
-    loggedIn = true;
-    mapTransition();
+    // localStorage.setItem("jwt", result.data.jwt);
+
   };
 
   const handleRegister = async (values: any) => {
     console.log(values);
-    const response = await fetch("http://localhost:4000/api/auth/register", {
+    const response = await fetch("https://debugthugs20.maurice.webcup.hodi.host/api/auth/register", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
