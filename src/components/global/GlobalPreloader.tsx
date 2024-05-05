@@ -50,11 +50,33 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
   };
 
   const handleLogin = async (values: any) => {
-  
+    const response = await fetch("http://localhost:4000/api/auth/login", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: values.username,
+        password: values.password,
+      }),
+    });
+
+    const result = await response.json();
+
+    if (!result.success) {
+      console.error(result.message)
+    }
+
+    localStorage.setItem("jwt", result.data.jwt);
+    loggedIn = true;
+    mapTransition();
   };
 
   const handleRegister = async (values: any) => {
- 
+
   };
 
   const onFinish = (values: any) => {
@@ -77,6 +99,12 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
     removeTick();
     removeRenderer();
   };
+
+  useEffect(() => {
+    if (loggedIn) {
+      btnText = "Fly To Olympic 2092"
+    }
+  }, [localStorage, loggedIn])
 
   useEffect(() => {
     let tl: gsap.core.Timeline;
@@ -166,83 +194,83 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
 
           {showLoginComponent ? (
 
-<div className="flex justify-center items-center bg-gray-200 pt-8 pr-8 z-10" style={{ height: "50vh" }}>
-<div className="backdrop-filter bg-black backdrop-blur-lg bg-opacity-75 p-24 rounded-lg shadow-xxl w-[365px]">
-  <h2 className="text-8xl text-center mb-8 text-white" style={{ fontSize: '1.5rem', fontWeight: '500' }}>{formType === 'login' ? 'Login' : 'Register'}</h2>
-  <Form
-    name="basic"
-    style={{ maxWidth: 600, margin: 'auto' }}
-    initialValues={{ remember: true }}
-    onFinish={onFinish}
-    onFinishFailed={onFinishFailed}
-    autoComplete="off"
-    layout="vertical"
-  >
-    <Form.Item
-      className="text-black rounded-md"
-      label="Username"
-      name="username"
-      rules={[{ required: true, message: 'Please input your username!' }]}
-    >
-      <Input />
-    </Form.Item>
+            <div className="flex justify-center items-center bg-gray-200 pt-8 pr-8 z-10" style={{ height: "50vh" }}>
+              <div className="backdrop-filter bg-black backdrop-blur-lg bg-opacity-75 p-24 rounded-lg shadow-xxl w-[365px]">
+                <h2 className="text-8xl text-center mb-8 text-white" style={{ fontSize: '1.5rem', fontWeight: '500' }}>{formType === 'login' ? 'Login' : 'Register'}</h2>
+                <Form
+                  name="basic"
+                  style={{ maxWidth: 600, margin: 'auto' }}
+                  initialValues={{ remember: true }}
+                  onFinish={onFinish}
+                  onFinishFailed={onFinishFailed}
+                  autoComplete="off"
+                  layout="vertical"
+                >
+                  <Form.Item
+                    className="text-black rounded-md"
+                    label="Username"
+                    name="username"
+                    rules={[{ required: true, message: 'Please input your username!' }]}
+                  >
+                    <Input />
+                  </Form.Item>
 
-    {formType === 'register' && (
-      <Form.Item
-        className="text-black rounded-md"
-        label="Email"
-        name="email"
-        rules={[{ required: true, message: 'Please input your email!', type: 'email' }]}
-      >
-        <Input />
-      </Form.Item>
-    )}
+                  {formType === 'register' && (
+                    <Form.Item
+                      className="text-black rounded-md"
+                      label="Email"
+                      name="email"
+                      rules={[{ required: true, message: 'Please input your email!', type: 'email' }]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  )}
 
-    <Form.Item
-      className="text-black rounded-md"
-      label="Password"
-      name="password"
-      rules={[{ required: true, message: 'Please input your password!' }]}
-    >
-      <Input.Password />
-    </Form.Item>
+                  <Form.Item
+                    className="text-black rounded-md"
+                    label="Password"
+                    name="password"
+                    rules={[{ required: true, message: 'Please input your password!' }]}
+                  >
+                    <Input.Password />
+                  </Form.Item>
 
-    {formType === 'register' && (
-      <Form.Item
-        className="text-black rounded-md"
-        label="Confirm Password"
-        name="confirmPassword"
-        dependencies={['password']}
-        hasFeedback
-        rules={[
-          { required: true, message: 'Please confirm your password!' },
-          ({ getFieldValue }) => ({
-            validator(_, value) {
-              if (!value || getFieldValue('password') === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject(new Error('The two passwords that you entered do not match!'));
-            },
-          }),
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
-    )}
+                  {formType === 'register' && (
+                    <Form.Item
+                      className="text-black rounded-md"
+                      label="Confirm Password"
+                      name="confirmPassword"
+                      dependencies={['password']}
+                      hasFeedback
+                      rules={[
+                        { required: true, message: 'Please confirm your password!' },
+                        ({ getFieldValue }) => ({
+                          validator(_, value) {
+                            if (!value || getFieldValue('password') === value) {
+                              return Promise.resolve();
+                            }
+                            return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                          },
+                        }),
+                      ]}
+                    >
+                      <Input.Password />
+                    </Form.Item>
+                  )}
 
-    <Form.Item className="m-auto text-center w-full">
-      <Button type="primary" className="w-full" htmlType="submit">
-        {formType === 'login' ? 'Login' : 'Register'}
-      </Button>
-    </Form.Item>
-    <Form.Item className="m-auto text-center w-full mt-[1rem]">
-      <Button type="link" onClick={toggleFormType}>
-        {formType === 'login' ? 'Need an account? Register' : 'Already have an account? Login'}
-      </Button>
-    </Form.Item>
-  </Form>
-</div>
-</div>
+                  <Form.Item className="m-auto text-center w-full">
+                    <Button type="primary" className="w-full" htmlType="submit">
+                      {formType === 'login' ? 'Login' : 'Register'}
+                    </Button>
+                  </Form.Item>
+                  <Form.Item className="m-auto text-center w-full mt-[1rem]">
+                    <Button type="link" onClick={toggleFormType}>
+                      {formType === 'login' ? 'Need an account? Register' : 'Already have an account? Login'}
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </div>
+            </div>
 
           ) : (
             <span></span>
