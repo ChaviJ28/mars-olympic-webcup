@@ -16,7 +16,7 @@ import { createRenderer, removeRenderer } from "../../three/preloader/renderer";
 import { createScene } from "../../three/preloader/scene";
 import { createTick, removeTick } from "../../three/preloader/tick";
 import StarsCanvas from "@/canvas/Stars";
-
+import { muteAllSounds, playSoundUiClick } from "@/sounds";
 
 export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<SetStateAction<boolean>> }) {
   const root = useRef<HTMLDivElement>(null);
@@ -78,6 +78,8 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
 
   const mapTransition = () => {
     gsap.to(intro.current, { duration: 0.5, autoAlpha: 0 });
+    muteAllSounds(false);
+    playSoundUiClick();
     transitionPlane();
     transitionClouds(root.current || document.createElement("div"));
     setTimeout(() => {
@@ -193,3 +195,4 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
     </section>
   );
 }
+

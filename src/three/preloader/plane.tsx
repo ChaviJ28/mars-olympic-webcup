@@ -4,6 +4,7 @@ import { useScene } from "@/three/preloader/scene";
 import gsap from "gsap";
 import { Group, Sprite, SpriteMaterial, TextureLoader, Texture, Scene, Object3D, Mesh } from "three";
 import { GLTFLoader, GLTF } from "three/examples/jsm/loaders/GLTFLoader";
+import { playIntroPlane } from "@/sounds";
 
 interface PlaneInt extends Object3D {
   scene: {
@@ -62,7 +63,7 @@ export const revealPlane = () => {
 
 export const transitionPlane = () => {
   gsap.to(group.position, { duration: 3, x: 30, ease: "power3.inOut" });
-  //playIntroPlane();
+  playIntroPlane();
   animParticles();
 };
 
