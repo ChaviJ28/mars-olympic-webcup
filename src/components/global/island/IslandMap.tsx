@@ -122,7 +122,7 @@ export function IslandMap({ playAnim }: { playAnim: boolean }) {
         else xPos = 83;
         yPos = 320;
         zoom = 2;
-        url = "/ape-rock";
+        url = "/competition/0";
         break;
       case 1:
         if (innerWidth > 1600) xPos = 18;
@@ -130,7 +130,7 @@ export function IslandMap({ playAnim }: { playAnim: boolean }) {
         else xPos = 23;
         yPos = 180;
         zoom = 1.8;
-        url = "/hodl-haven";
+        url = "/competition/1";
         break;
       case 2:
         if (innerWidth > 1800) xPos = -45;
@@ -140,26 +140,9 @@ export function IslandMap({ playAnim }: { playAnim: boolean }) {
         else xPos = -65;
         yPos = 100;
         zoom = 1.8;
-        url = "/degen-island";
+        url = "/competition/2";
         break;
-      case 3:
-        if (innerWidth > 1800) xPos = 0;
-        else if (innerWidth > 1200 && innerWidth <= 1800) xPos = 5;
-        else xPos = 15;
-        yPos = 40;
-        zoom = 1.3;
-        url = "/diamond-isle";
-        break;
-      case 4:
-        if (innerWidth > 1800) xPos = -75;
-        else if (innerWidth > 1600 && innerWidth <= 1800) xPos = -68;
-        else if (innerWidth > 1400 && innerWidth <= 1600) xPos = -50;
-        else if (innerWidth > 1200 && innerWidth <= 1400) xPos = -60;
-        else xPos = -60;
-        yPos = 320;
-        zoom = 2;
-        url = "/whale-island";
-        break;
+     
     }
 
     playSoundTransitionToIsland();

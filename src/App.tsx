@@ -21,7 +21,7 @@ function App() {
       <AnimatePresence>
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Homepage />} />
-          <Route path="/ape-rock" element={<PageApeRock />} />
+          <Route path="/competition/:id" element={<PageApeRock />} />
         </Routes>
       </AnimatePresence>
       {/* <FPSStats /> */}
