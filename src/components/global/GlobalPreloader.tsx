@@ -50,6 +50,7 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
   };
 
   const handleLogin = async (values: any) => {
+    console.log(values);
     const response = await fetch("http://localhost:4000/api/auth/login", {
       method: "POST",
       mode: "cors",
@@ -76,7 +77,31 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
   };
 
   const handleRegister = async (values: any) => {
+    console.log(values);
+    const response = await fetch("http://localhost:4000/api/auth/register", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: values.name,
+        email: values.email,
+        password: values.password,
+      }),
+    });
 
+    const result = await response.json();
+
+    if (!result.success) {
+      console.error(result.message)
+    }
+
+    localStorage.setItem("jwt", result.data.jwt);
+    loggedIn = true;
+    mapTransition();
   };
 
   const onFinish = (values: any) => {
@@ -208,8 +233,8 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
                 >
                   <Form.Item
                     className="text-black rounded-md"
-                    label="Username"
-                    name="username"
+                    label="name"
+                    name="name"
                     rules={[{ required: true, message: 'Please input your username!' }]}
                   >
                     <Input />
@@ -257,7 +282,6 @@ export function GlobalPreloader({ onAnimComplete }: { onAnimComplete: Dispatch<S
                       <Input.Password />
                     </Form.Item>
                   )}
-
                   <Form.Item className="m-auto text-center w-full">
                     <Button type="primary" className="w-full" htmlType="submit">
                       {formType === 'login' ? 'Login' : 'Register'}
