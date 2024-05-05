@@ -9,7 +9,7 @@
   "ddd": 0,
   "assets": [
     { "id": "image_0", "w": 240, "h": 246, "u": "lottie-images/planet2/", "p": "football.png", "e": 0 },
-    { "id": "image_1", "w": 203, "h": 171, "u": "lottie-images/planet2/", "p": "astro2.png", "e": 0 }
+    { "id": "image_1", "w": 203, "h": 171, "u": "lottie-images/planet2/", "p": "ast2.webp", "e": 0 }
   ],
   "layers": [
     {

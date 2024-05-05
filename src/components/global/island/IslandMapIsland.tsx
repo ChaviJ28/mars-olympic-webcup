@@ -33,12 +33,20 @@ export function IslandMapIsland({
   let sign = "/images/map/sign_ape.webp";
   let signPos = { x: "-left-20", y: "-top-72" };
   let signSize = "w-200";
-  let lockPos = { x: "left-1/2", y: "top-1/2" };
+  // let lockPos = { x: "left-1/2", y: "top-1/2" };
+
+  // if (index === 0) {
+  //   lockPos = { x: "left-[40%] xl:left-1/2", y: "top-1/2 xl:top-1/3" };
+  // }
+  const lottieOps = { loop: true, autoplay: true, animationData: islandData };
 
   if (index === 0) {
-    lockPos = { x: "left-[40%] xl:left-1/2", y: "top-1/2 xl:top-1/3" };
+    sign = "/images/signs/archLogo.png"; // Example image for index 0
+  } else if (index === 1) {
+    sign = "/images/signs/1234.webp"; // Example image for index 1
+  } else if (index === 2) {
+    sign = "/images/signs/shoot.png"; // Example image for index 2
   }
-  const lottieOps = { loop: true, autoplay: true, animationData: islandData };
 
   const { ref, inView } = useInView({
     threshold: 0.5,
@@ -62,11 +70,11 @@ export function IslandMapIsland({
         marginTop,
         translateZ
       )}
-      onMouseEnter={() => {}}
-      onMouseLeave={() => {}}
-      onClick={() => {}}
+      onMouseEnter={() => { }}
+      onMouseLeave={() => { }}
+      onClick={() => { }}
     >
-      {locked && (
+      {/* {locked && (
         <div
           className={clsx(
             "group absolute z-40 grid size-88 max-w-200 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/75 backdrop-blur-[2px] xl:size-120",
@@ -76,7 +84,7 @@ export function IslandMapIsland({
         >
           <img
             className="relative z-20 size-[44px] xl:size-64"
-            src="/images/icons/padlock.webp"
+            src="/images/padlock.webp"
             width={80}
             height={80}
             alt="padlock"
@@ -86,33 +94,32 @@ export function IslandMapIsland({
             {index === 3 && <p>Diamond Isle Coming Soon! Stay tuned.</p>}
           </IslandMapTooltip>
         </div>
-      )}
+      )} */}
 
       <div
         className={clsx("group absolute z-[45] xl:static xl:left-auto xl:top-auto xl:mx-auto", signPos.x, signPos.y)}
-        onMouseEnter={() => {}}
+        onMouseEnter={() => { }}
       >
         <div className={`${signSize} transition-transform group-hover:scale-110 `}>
-          <img style={{ animation: "signRotation 3s infinite ease-in-out" }} src={sign} />
+        <img style={{ animation: "signRotation 3s infinite ease-in-out", width: "150px", height: "150px" }} src={sign} />
         </div>
         {index === 0 && (
           <IslandMapTooltip show={showTooltip}>
             <p>
-              This is where your Lingo journey begins. Complete tasks to earn your boarding pass and start farming
-              airdrops.
+              Step into the future of athletic competition on the Red Planet with Mars Archery Arena
             </p>
           </IslandMapTooltip>
         )}
 
         {index === 1 && (
           <IslandMapTooltip show={showTooltip}>
-            <p>Farming is more fun together! Invite your frens to upgrade to business class!</p>
+            <p>Embark on a journey to the frontier of interplanetary sports with Mars Shootout</p>
           </IslandMapTooltip>
         )}
 
         {index === 2 && (
           <IslandMapTooltip show={showTooltip}>
-            <p>Welcome to airdrop paradise! 20,000,000 Lingo token airdrops are hidden in LINGO collector cards.</p>
+            <p>Engage in pulse-pounding shooting battles across the Martian surface,</p>
           </IslandMapTooltip>
         )}
 
@@ -121,27 +128,21 @@ export function IslandMapIsland({
             <p>First class experience, exclusively for our partners. TBA.</p>
           </IslandMapTooltip>
         )}
-
-        {index === 4 && (
-          <IslandMapTooltip show={showTooltip}>
-            <p>Real Lingo Whales fly private.</p>
-          </IslandMapTooltip>
-        )}
       </div>
 
       <div
         className={clsx("relative z-20 xl:w-full [&>*]:!pointer-events-none xl:[&>*]:!h-full xl:[&>*]:!w-full", {
-          "xl:h-[60%]": index === 2,
-          "xl:h-1/2": index !== 2,
+          "xl:h-[60%]": index === 3,
+          "xl:h-1/2": index !== 3,
         })}
         onClick={!locked ? onClick : undefined}
         onMouseEnter={!locked ? onMouseEnter : undefined}
         onMouseLeave={!locked ? onMouseLeave : undefined}
       >
-        {index === 2 && (
+        {index === 3 && (
           <Lottie options={lottieOps} height={size} width={size} isClickToPauseDisabled={true} isPaused={active} />
         )}
-        {index !== 2 && (
+        {index !== 3 && (
           <Lottie options={lottieOps} height={size} width={size} isClickToPauseDisabled={true} isPaused={active} />
         )}
       </div>

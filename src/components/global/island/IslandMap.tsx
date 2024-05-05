@@ -15,6 +15,15 @@ import planet3 from "@/lotties/planet3.json";
 import { BaseIcon } from "@/components/base/BaseIcon";
 import MarsCanvas from "@/canvas/mars_cover";
 
+import {
+  playSoundTransitionToIsland,
+  playSoundUiClick,
+  playSoundWaves,
+  playSoundMapPlane,
+  playSoundWoosh1,
+  muteAllIslands,
+} from "@/sounds";
+
 export function IslandMap({ playAnim }: { playAnim: boolean }) {
   const navigateTo = useNavigate();
 
@@ -34,14 +43,16 @@ export function IslandMap({ playAnim }: { playAnim: boolean }) {
   const pagination = useRef<HTMLDivElement>(null);
 
   const zoomAnimation = (type: string) => {
-
+    playSoundWaves();
+    playSoundMapPlane();
+    
     const tl = gsap.timeline({
       onComplete: () => setEnabled(true),
     });
 
     if (type === "play") {
       tl.to(plane.current, { duration: 2, x: "200vw", y: -100, ease: "power1.out" });
-      tl.to(scene.current, { duration: 1, scale: 1, ease: "power1.inOut" }, 1);
+      tl.to(scene.current, { duration: 1, scale: 1, ease: "power1.inOut", onStart: () => playSoundWoosh1() }, 1);
       tl.to(islands.current, { duration: 1, xPercent: 0, left: 0, ease: "power1.inOut" }, 1);
       tl.to(waterHolder.current, { duration: 1, xPercent: -10, left: 0, ease: "power1.inOut" }, 1);
       tl.to(pagination.current, { duration: 1, autoAlpha: 1, ease: "power1.inOut" }, 2);
@@ -55,7 +66,7 @@ export function IslandMap({ playAnim }: { playAnim: boolean }) {
   };
 
   const handleHover = (hoverState: boolean, island: number) => {
-    console.log(island)
+    console.log(`Hover state: ${hoverState}, Island: ${island}`);
     if (active && (island === 0 || island === 1 || island === 2)) return;
     setIsHovered(hoverState);
   };
@@ -70,6 +81,9 @@ export function IslandMap({ playAnim }: { playAnim: boolean }) {
 
   const moveTrack = useCallback((direction: string) => {
     if (isMoving.current) return;
+
+    playSoundUiClick();
+    playSoundWoosh1();
 
 
     isMoving.current = true;
@@ -148,6 +162,8 @@ export function IslandMap({ playAnim }: { playAnim: boolean }) {
         break;
     }
 
+    playSoundTransitionToIsland();
+
     setEnabled(false);
     setAngleReset(0);
 
@@ -155,6 +171,7 @@ export function IslandMap({ playAnim }: { playAnim: boolean }) {
 
     const tl = gsap.timeline({
       onComplete: () => {
+        muteAllIslands();
         navigateTo(url);
       },
     });
@@ -238,16 +255,6 @@ export function IslandMap({ playAnim }: { playAnim: boolean }) {
                 styles.islandMap__track
               )}
             >
-              {/* <IslandMapIsland
-                index={0}
-                active={active}
-                onClick={() => transition(0)}
-                onMouseEnter={() => handleHover(true, 0)}
-                onMouseLeave={() => handleHover(false, 0)}
-                islandData={island1}
-                onVisible={updatePagination}
-              /> */}
-
               <IslandMapIsland
                 index={0}
                 active={active}
@@ -257,17 +264,6 @@ export function IslandMap({ playAnim }: { playAnim: boolean }) {
                 islandData={planet1}
                 onVisible={updatePagination}
               />
-
-              {/* <IslandMapIsland
-                index={1}
-                active={active}
-                onClick={() => transition(1)}
-                onMouseEnter={() => handleHover(true, 1)}
-                onMouseLeave={() => handleHover(false, 1)}
-                islandData={island2}
-                onVisible={updatePagination}
-                locked={!hasClaimedBoardingPass}
-              /> */}
 
               <IslandMapIsland
                 index={1}
@@ -279,17 +275,6 @@ export function IslandMap({ playAnim }: { playAnim: boolean }) {
                 onVisible={updatePagination}
               />
 
-              {/* <IslandMapIsland
-                index={2}
-                active={active}
-                onClick={() => transition(2)}
-                onMouseEnter={() => handleHover(true, 2)}
-                onMouseLeave={() => handleHover(false, 2)}
-                islandData={island3}
-                onVisible={updatePagination}
-                locked={!hasClaimedBoardingPass}
-              /> */}
-
               <IslandMapIsland
                 index={2}
                 active={active}
@@ -299,21 +284,6 @@ export function IslandMap({ playAnim }: { playAnim: boolean }) {
                 islandData={planet3}
                 onVisible={updatePagination}
               />
-
-              <IslandMapIsland
-                index={3}
-                active={active}
-                onClick={() => transition(3)}
-                onMouseEnter={() => handleHover(true, 3)}
-                onMouseLeave={() => handleHover(false, 3)}
-                islandData={planet3}
-                onVisible={updatePagination}
-              />
-
-              {/* <img
-                className="absolute bottom-0 -z-10 hidden h-1/2 w-full max-w-none object-cover object-center saturate-150 xl:block"
-                src="/videos/water_poster.jpg"
-              /> */}
             </div>
           </div>
 
@@ -327,12 +297,6 @@ export function IslandMap({ playAnim }: { playAnim: boolean }) {
 
       <IslandMapBtn type="left" active={active} onClick={() => moveTrack("left")} />
       <IslandMapBtn type="right" active={active} onClick={() => moveTrack("right")} />
-      <IslandMapPagination
-        ref={pagination}
-        active={active}
-        mobileActive={mobileActive}
-        onPageChange={handlePaginationClick}
-      />
       <IslandMapCursor isHovered={isHovered} />
     </section>
   );
