@@ -5,15 +5,15 @@ import './styles/MyTable.css'
  export function MyTable(){
 
   const participantData = [
-    { id: 1, Name: 'Zinzu Chan Lee', Country: 'https://hatscripts.github.io/circle-flags/flags/in.svg', Age: '27', Odds: '18/4',OddsVal:'10'},
-    { id: 2, Name: 'Jeet Saru', Country: 'https://hatscripts.github.io/circle-flags/flags/in.svg', Age: '32', Odds: '10/2',OddsVal:'5'},
-    { id: 3, Name: 'Sonal Gharti', Country: 'https://hatscripts.github.io/circle-flags/flags/in.svg', Age: '24', Odds: '10/5',OddsVal:'2'},
+    { id: 1, Name: 'Zinzu Chan Lee', Country: 'https://hatscripts.github.io/circle-flags/flags/uk.svg', Age: '27', Odds: '18/4',OddsVal:'10'},
+    { id: 2, Name: 'Jeet Saru', Country: 'https://hatscripts.github.io/circle-flags/flags/fr.svg', Age: '32', Odds: '10/2',OddsVal:'5'},
+    { id: 3, Name: 'Sonal Gharti', Country: 'https://hatscripts.github.io/circle-flags/flags/ch.svg', Age: '24', Odds: '10/5',OddsVal:'2'},
   ];
 
   return (
-    <main className="table" id="customers_table">
+    <main className=" bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-50 p-24 rounded-lg shadow-xxl" id="customers_table">
       <section className="table__header">
-        <h1>Participants List</h1>
+        <h2 className='mb-16 text-white' style={{fontSize: '1.5rem', fontWeight: '500'}}>Participants List</h2>
       </section>
       <section className="table__body">
         <table>
