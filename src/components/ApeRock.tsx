@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const { Option } = Select;
 
-interface FormValues {
+export interface FormValues {
   participant: string;
   paymentType: string;
   amount: string;
@@ -35,7 +35,7 @@ export const ApeRock: React.FC<{id: number}> = ({id} : {id: number}) => {
     { id: 3, Name: 'Sonal Gharti', Country: 'https://hatscripts.github.io/circle-flags/flags/in.svg', Age: '24', Odds: '10/5', OddsVal: '2' },
   ];
 
-  const [form] = Form.useForm<FormInstance<FormValues>>();
+  const form = Form.useForm<FormInstance<FormValues>>();
   const [participant, setParticipant] = useState<string>();
   const [paymentType, setPaymentType] = useState<string>('');
   const [amount, setAmount] = useState<number>(0);
@@ -128,7 +128,7 @@ export const ApeRock: React.FC<{id: number}> = ({id} : {id: number}) => {
             <div className=" bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-50 p-12 rounded-lg shadow-xxl" style={{ maxWidth: '500px' }}>
               <h2 className="text-8xl text-center  mb-8 text-white" style={{ fontSize: '1.5rem', fontWeight: '500' }}>Place Your Bet</h2>
               <Form className="form-white-labels"
-                form={form}
+                form={form as any}
                 onFinish={handleSubmit}
                 layout="vertical"
                 initialValues={{
@@ -182,7 +182,7 @@ export const ApeRock: React.FC<{id: number}> = ({id} : {id: number}) => {
                   <Input
                     type="text"
                     placeholder="Amount in USD"
-                    onChange={e => setAmount(e.target.value)}
+                    onChange={e => setAmount(e.target.value as unknown as number)}
                     className="bg-white text-black rounded-md"
                   />
                 </Form.Item>
@@ -192,7 +192,7 @@ export const ApeRock: React.FC<{id: number}> = ({id} : {id: number}) => {
                 </p>)}
 
                 <Form.Item>
-                  <Button  loading={loading} type="ghost" htmlType="submit" className="w-full text-white bg-purple-600 hover:border-transparent hover:text-white hover:bg-purple-800 transition-colors duration-300 rounded-md">
+                  <Button  loading={loading} htmlType="submit" className="w-full text-white bg-purple-600 hover:border-transparent hover:text-white hover:bg-purple-800 transition-colors duration-300 rounded-md">
                     Place Bet
                   </Button>
                 </Form.Item>
